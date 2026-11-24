@@ -55,8 +55,6 @@ const load = (otp) => {
     throw new Error("Period out of range");
   }
 
-  $settings["issuer"].value = otp.issuer;
-  $settings["label"].value = otp.label;
   $settings["algorithm"].value = otp.algorithm;
   $settings["digits"].value = otp.digits;
   $settings["digits"].dispatchEvent(new Event("input", { bubbles: true }));
