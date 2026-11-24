@@ -18,3 +18,39 @@
 #camera-overlay {
   object-fit: cover;
 }
+
+/* totp.page 风格：居中窄栏 */
+main.container {
+  max-width: 600px;
+}
+
+/* 验证码大号变色字（totp.page 同款动画） */
+@keyframes color-animation {
+  0% { color: red; }
+  50% { color: green; }
+  100% { color: blue; }
+}
+
+.token-box {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  background-color: var(--bs-tertiary-bg);
+}
+
+.token-box #code {
+  border: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.token-box #code:focus {
+  box-shadow: none;
+}
+
+.token-text {
+  animation: color-animation 5s infinite;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}

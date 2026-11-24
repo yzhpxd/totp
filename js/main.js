@@ -77,6 +77,8 @@ const progress = () => {
   $counter.style.width = `${(vnow / vmax) * 100}%`;
   $counter.setAttribute("aria-valuenow", vnow.toString());
   $counter.setAttribute("aria-valuemax", vmax.toString());
+  const $updatingIn = document.querySelector("#updating-in");
+  if ($updatingIn) $updatingIn.textContent = Math.ceil(vnow / 1000).toString();
 };
 
 const notify = (() => {
@@ -172,7 +174,7 @@ $load.addEventListener("change", (event) => {
 
       const data = ctx.getImageData(0, 0, bitmap.width, bitmap.height);
       load(OTPAuth.URI.parse(decodeQR(data)));
-      notify("Loaded QR code from file", "success");
+      notify("已从文件加载二维码", "success");
     } catch (error) {
       console.error(error);
       notify(error.message ?? error, "danger");
@@ -215,7 +217,7 @@ const cameraLoop = (player) => {
 
     try {
       load(OTPAuth.URI.parse(data));
-      notify("Loaded QR code from camera", "success");
+      notify("已从摄像头加载二维码", "success");
     } catch (error) {
       console.error(error);
       notify(error.message ?? error, "danger");
@@ -283,6 +285,20 @@ $cameraList.addEventListener("change", async (event) => {
 
 $code.addEventListener("focus", () => $code.select());
 $uri.addEventListener("focus", () => $uri.select());
+
+const $copy = document.querySelector("#copy");
+if ($copy) {
+  $copy.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText($code.value);
+      notify("验证码已复制", "success");
+    } catch (error) {
+      console.error(error);
+      $code.select();
+      notify("复制失败，请手动复制", "danger");
+    }
+  });
+}
 
 $settings["secret"].value = new OTPAuth.Secret().base32;
 
